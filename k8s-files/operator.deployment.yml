@@ -1,0 +1,20 @@
+  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-operator-example
+spec:
+  selector:
+    matchLabels:
+      app: quarkus-operator-example
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quarkus-operator-example
+    spec:
+      serviceAccountName: quarkus-operator-example
+      containers:
+        - image: primael94/quarkus-operator
+          name: quarkus-operator-example
+          imagePullPolicy: Always
