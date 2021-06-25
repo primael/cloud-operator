@@ -1,6 +1,5 @@
 package com.bnpp.k8sops.cloud.operator.consul.domain;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 

@@ -1,8 +1,6 @@
 package com.bnpp.k8sops.cloud.operator.consul.lifecycle;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +13,6 @@ import com.orbitz.consul.Consul;
 import com.orbitz.consul.HealthClient;
 import com.orbitz.consul.model.agent.ImmutableRegistration;
 import com.orbitz.consul.model.health.ServiceHealth;
-import com.orbitz.consul.model.kv.Value;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
