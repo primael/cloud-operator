@@ -9,6 +9,7 @@ import com.bnpp.k8sops.cloud.operator.consul.domain.Index;
 import com.orbitz.consul.Consul;
 import com.orbitz.consul.model.kv.Value;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -18,11 +19,21 @@ import io.quarkus.scheduler.Scheduled;
 @ApplicationScoped
 public class ConsulScheduled {
 
-    @Inject
+    @ConfigProperty(name = "consul.location")
+    String location;
+
+    // @Inject
     Consul consulClient;
 
     @Inject
     MeterRegistry registry;
+
+    public ConsulScheduled() {
+        consulClient = Consul.builder() //
+                .withUrl("http://consul-0.l-infini.priv:8500") //
+                .withHttps(false) //
+                .build();
+    }
 
     /*
      * @Inject IWorkflowService service;
@@ -33,7 +44,7 @@ public class ConsulScheduled {
         System.out.println("Interrogation consul");
 
         // 1- read index
-        Optional<Value> indexes = consulClient.keyValueClient().getValue("config/cloud-operator/index");
+        Optional<Value> indexes = consulClient.keyValueClient().getValue(location + "/index");
 
         // 2- for each index in indexes call iWorkflow
         if (indexes.isPresent()) {
@@ -51,12 +62,13 @@ public class ConsulScheduled {
     }
 
     private void readVipName(String vip_name) {
-        Optional<Value> vip = consulClient.keyValueClient().getValue("config/cloud-operator/" + vip_name);
+        Optional<Value> vip = consulClient.keyValueClient().getValue(location + "/" + vip_name);
 
         if (vip.isPresent()) {
             String value = vip.get().getValueAsString().get();
 
             // service.read();
+            // registry.counter("", tags);
             System.out.println(value);
         }
     }

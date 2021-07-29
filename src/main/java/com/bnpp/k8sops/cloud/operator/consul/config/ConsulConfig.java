@@ -5,10 +5,11 @@ import javax.enterprise.inject.Produces;
 
 import com.orbitz.consul.Consul;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class ConsulConfig {
 
     @Produces
-    Consul consulClient = Consul.builder().build();
+    Consul consulClient = Consul.builder().withHttps(false) //
+            .build();
 
 }
