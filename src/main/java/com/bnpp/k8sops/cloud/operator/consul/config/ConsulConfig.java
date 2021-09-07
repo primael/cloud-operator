@@ -5,11 +5,17 @@ import javax.enterprise.inject.Produces;
 
 import com.orbitz.consul.Consul;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 //@ApplicationScoped
 public class ConsulConfig {
 
-    @Produces
-    Consul consulClient = Consul.builder().withHttps(false) //
-            .build();
+    @ConfigProperty(name = "consul.url")
 
+    String consulUrl;
+    @Produces
+    Consul consulClient = Consul.builder() //
+            .withUrl(consulUrl) //
+            .withHttps(false) //
+            .build();            
 }
